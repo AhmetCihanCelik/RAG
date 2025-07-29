@@ -1,0 +1,6 @@
+tweepy
+chromadb
+openai
+langchain
+python-dotenv
+pandas
