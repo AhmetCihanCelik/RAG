@@ -2,14 +2,11 @@ import os
 import time
 import tweepy
 from tweepy.errors import TooManyRequests
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
-from langchain.llms import OpenAI
-from config import OPENAI_API_KEY, TWITTER_BEARER_TOKEN, TRACK_KEYWORD
+from langchain_openai import OpenAIEmbeddings, OpenAI
+from langchain_chroma import Chroma
 from dotenv import load_dotenv
 
 load_dotenv()
-
 
 TRACK_KEYWORD = "Bu Bir Denemedir."
 
@@ -18,7 +15,7 @@ os.makedirs("vectorstore", exist_ok=True)
 
 embeddings = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
 chroma = Chroma("adalet_tweets", embedding_function=embeddings, persist_directory="vectorstore")
-llm = OpenAI(openai_api_key=OPENAI_API_KEY, temperature=0)
+llm = OpenAI(model="gpt-4o", temperature=0, openai_api_key=os.getenv("OPENAI_API_KEY"))
 
 def fetch_and_process_tweets():
     """
